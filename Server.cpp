@@ -86,7 +86,8 @@ class Server
 
 };
 
-int main() {
+int main()
+{
 
   cout << "STARTING" << endl;
   Server socket;

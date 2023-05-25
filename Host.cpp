@@ -9,7 +9,8 @@
 
 using namespace std;
 
-class Client{
+class Client
+{
 
   public:
     int cli_sockfd, status;
@@ -61,7 +62,8 @@ class Client{
 
 };
 
-int main() {
+int main()
+{
 
   Client cliente;
   cliente.enviar();
