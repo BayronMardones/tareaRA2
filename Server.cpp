@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <cstdlib>
 //si
-#define PORT 8080
+// #define PORT 8080
 
 using namespace std;
 
@@ -19,7 +19,7 @@ class Server
     char buffer[1024] = { 0 };
     int valread;
 
-    Server()
+    Server(int PORT)
     {
       if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
       {
@@ -86,11 +86,18 @@ class Server
 
 };
 
-int main()
+int main(int argc, char *argv[])
 {
+  if (argc != 2)
+  {
+        cerr << "Usage: " << argv[0] << " <PORT>" << endl;
+        return 1;
+  }
+
+  int PORT = atoi(argv[1]);
 
   cout << "STARTING" << endl;
-  Server socket;
+  Server socket(PORT);
   socket.recibir();
 
   cout << "BYE ;)" << endl;
