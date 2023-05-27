@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <cstdlib>
 //192.168.1.13 autodoxeo de pana banana
-#define PORT 8080
+// #define PORT 8080
 
 using namespace std;
 
@@ -18,7 +18,7 @@ class Client
     char buffer[1024] = { 0 };
     const char* hello = "Hello from client";
 
-    Client()
+    Client(int IP, char PORT)
     {
       if ((cli_sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
       {
@@ -32,7 +32,7 @@ class Client
 
       serv_addr.sin_family = AF_INET;
 	    serv_addr.sin_port = htons(PORT);
-      serv_addr.sin_addr.s_addr = inet_addr("192.168.1.13");
+      serv_addr.sin_addr.s_addr = inet_addr(IP);
 
 	    // Convert IPv4 and IPv6 addresses from text to binary
 	    // form
@@ -62,10 +62,18 @@ class Client
 
 };
 
-int main()
+int main(int argc, char *argv[])
 {
 
-  Client cliente;
+  if (argc != 3) {
+    cerr << "Usage: " << argv[0] << " <variable1> <variable2>" << endl;
+    return 1;
+  }
+
+  string IP = argv[1];
+  int PORT = atoi(argv[2]);
+
+  Client cliente(IP, PORT);
   cliente.enviar();
 
   cout << "fin" << endl;
