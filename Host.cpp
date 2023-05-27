@@ -11,7 +11,6 @@ using namespace std;
 
 class Client
 {
-
   public:
     int cli_sockfd, status;
     struct sockaddr_in serv_addr;
@@ -20,6 +19,7 @@ class Client
 
     Client(const string& IP, int PORT)
     {
+      //creaccion  del socket
       if ((cli_sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
       {
 	  	  perror("socket failed");
@@ -30,16 +30,10 @@ class Client
         cout << "CONGRATULATION :D" << endl;
       }
 
+      //establecer conexion con el socket del servidor y entrega de datos de la estructura sockaddr
       serv_addr.sin_family = AF_INET;
 	    serv_addr.sin_port = htons(PORT);
       serv_addr.sin_addr.s_addr = inet_addr(IP.c_str());
-
-	    // Convert IPv4 and IPv6 addresses from text to binary
-	    // form
-	    // if (inet_pton(AF_INET, "192.168.1.13 ", &serv_addr.sin_addr) <= 0)
-      // {
-      //   cout << "Invalid address/ Address not supported " << endl;
-	    // }
 
       if (connect(cli_sockfd, (struct sockaddr*)&serv_addr,sizeof(serv_addr)) < 0)
       {
@@ -54,6 +48,7 @@ class Client
 		
 	}
 
+  //metodo que envia un mensaje al servidor
   void enviar()
   {
     send(cli_sockfd, hello, strlen(hello), 0);

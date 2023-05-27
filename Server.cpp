@@ -21,6 +21,7 @@ class Server
 
     Server(int PORT)
     {
+      //creacion del socket
       if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
       {
 	  	  perror("socket failed");
@@ -30,7 +31,8 @@ class Server
       {
         cout << "CONGRATULATION :D" << endl;
       }
-  
+
+      //configuracion del socket
       if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt)))
       {
 	    	perror("setsockopt");
@@ -45,7 +47,7 @@ class Server
 	    address.sin_addr.s_addr = INADDR_ANY;
 	    address.sin_port = htons(PORT);
   
-	    // Forcefully attaching socket to the port 8080
+	    // enlace del socket al puerto ingresado
 	    if (bind(sockfd, (struct sockaddr*)&address, sizeof(address)) < 0)
       {
 	    	perror("bind failed");
@@ -55,7 +57,9 @@ class Server
       {
         cout << "CONFIGURED BIND :D" << endl;
       }
-  
+
+
+      //socket en modo escucha esperando a que entre el socket cliente
       if (listen(sockfd, 3) < 0)
       {
 	  	  perror("listen");
@@ -65,7 +69,8 @@ class Server
       {
         cout << "LISTEN CORRECT :D" << endl;
       }
-  
+
+      //acepta el socket entrante y verifica que este 
       if ((new_sockfd = accept(sockfd, (struct sockaddr*)&address, 
       (socklen_t*)&addrlen)) < 0)
       {
@@ -76,9 +81,9 @@ class Server
       {
         cout << "SERVER FINISHED :D" << endl;
       }
-
   }
 
+  //metodo que lee el contenido del socket cliente guardado en buffer
   void recibir(){
     valread = read(new_sockfd, buffer, 1024);
 	  printf("%s\n", buffer);
@@ -88,6 +93,7 @@ class Server
 
 int main(int argc, char *argv[])
 {
+  //verificar que se agregue la cantidad de datos correctos desde la terminal
   if (argc != 2)
   {
         cerr << "Usage: " << argv[0] << " <PORT>" << endl;
