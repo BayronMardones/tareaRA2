@@ -18,7 +18,7 @@ class Client
     char buffer[1024] = { 0 };
     const char* hello = "Hello from client";
 
-    Client(int IP, char PORT)
+    Client(const string& IP, int PORT)
     {
       if ((cli_sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
       {
@@ -32,7 +32,7 @@ class Client
 
       serv_addr.sin_family = AF_INET;
 	    serv_addr.sin_port = htons(PORT);
-      serv_addr.sin_addr.s_addr = inet_addr(IP);
+      serv_addr.sin_addr.s_addr = inet_addr(IP.c_str());
 
 	    // Convert IPv4 and IPv6 addresses from text to binary
 	    // form
