@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <cstdlib>
 //192.168.1.13 autodoxeo de pana banana
+//192.168.0.16 nancu
 // #define PORT 8080
 
 using namespace std;
