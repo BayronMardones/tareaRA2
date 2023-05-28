@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <cstdlib>
 #include <pthread.h>
+#include <cstring>
 //si
 // #define PORT 8080
 
@@ -12,7 +13,15 @@ using namespace std;
 const int MAX_CLIENTS = 5;
 
 void* HandleClient(void* arg) {
+  char buffer[1024];
+  static int clientCounter = 0;
+  int clientNumber = ++clientCounter;
   int clientSocket = *(static_cast<int*>(arg));
+  cout << "Cliente " << clientNumber << " conectado" << endl;
+
+  const char* message = "Hola, cliente!";
+  write(clientSocket, message, strlen(message));
+
   // Lógica para manejar la conexión con el cliente
   // Cerrar el socket del cliente
   close(clientSocket);
@@ -49,10 +58,6 @@ int main(int argc, char *argv[])
 	  perror("socket failed");
 	  exit(EXIT_FAILURE);
 	}
-  else
-  {
-    cout << "CONGRATULATION :D" << endl;
-  }
 
   //configuracion del socket
   if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt)))
@@ -60,10 +65,6 @@ int main(int argc, char *argv[])
 		perror("setsockopt");
 		exit(EXIT_FAILURE);
 	}
-  else
-  {
-    cout << "CONFIGURED SOCKET :D" << endl;
-  }
 
   address.sin_family = AF_INET;
 	address.sin_addr.s_addr = INADDR_ANY;
@@ -74,10 +75,6 @@ int main(int argc, char *argv[])
 		perror("bind failed");
 		exit(EXIT_FAILURE);
 	}
-  else
-  {
-    cout << "CONFIGURED BIND :D" << endl;
-  }
 
 //socket en modo escucha esperando a que entre el socket cliente
   if (listen(sockfd, 3) < 0)
@@ -87,7 +84,7 @@ int main(int argc, char *argv[])
 	}
   else
   {
-    cout << "LISTEN CORRECT :D" << endl;
+    cout << "Esperando conexiones..." << endl;
   }
 
   while(true)

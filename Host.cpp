@@ -4,6 +4,11 @@
 #include <string.h>
 #include <stdio.h>
 #include <cstdlib>
+#include <netinet/in.h>
+#include <cstring>
+#include <unistd.h>
+
+
 //192.168.1.13 autodoxeo de pana banana
 // #define PORT 8080
 
@@ -51,10 +56,22 @@ class Client
   //metodo que envia un mensaje al servidor
   void enviar()
   {
+    string mensaje;
+    cout << "Ingrese su mensaje: ";
+    getline(cin, mensaje);
     send(cli_sockfd, hello, strlen(hello), 0);
-    cout << "Hello message sent :D" << endl;
+    cout << "Mensaje enviado" << endl;
   }
 
+  void escuchar()
+  {
+    int bytesRead = read(cli_sockfd, buffer, sizeof(buffer));
+    if (bytesRead < 0) {
+        cerr << "Error al leer datos del servidor" << endl;
+        close(cli_sockfd);
+    }
+    cout << "Mensaje recibido: " << buffer << endl;
+  }
 };
 
 int main(int argc, char *argv[])
@@ -69,7 +86,15 @@ int main(int argc, char *argv[])
   int PORT = atoi(argv[2]);
 
   Client cliente(IP, PORT);
-  cliente.enviar();
+
+  while(true)
+  {
+    cliente.enviar();
+    cliente.escuchar();
+    cout << "reinicio" << endl;
+  }
+
+
 
   cout << "fin" << endl;
   return 0;
