@@ -17,7 +17,7 @@ class Game {
     char tablaHost[15][15];
     int puntajeHost;
     int puntajeServer;
-    int start;
+    char turno;
 
     Game() {
       for(int i = 0; i < 15; i++) {
@@ -28,6 +28,8 @@ class Game {
       }
       puntajeHost = 0;
       puntajeServer = 0;
+      if(rand() % 2 == 0) turno = 's';
+      else turno = 'h';
     }
 
     void fillServer() {
@@ -42,9 +44,20 @@ class Game {
     }
 
     void disparoServer() {
-      int x = rand() % 15;
-      int y = rand() % 15;
-
+      int x, y;
+      do {
+        int x = rand() % 15;
+        int y = rand() % 15;
+      } while(tablaHost[x][y] == 'X' || tablaHost[x][y] == 'O');
+      if(tablaHost[x][y] != '_') {
+        puntajeServer++;
+        tablaHost[x][y] = 'O';
+        cout << "acierto" << endl;
+      }else {
+        tablaHost[x][y] = 'X';
+        cout << "fallo" << endl;
+      }
+      turno = 'h';
     }
 
     void disparo(int x, int y) {
@@ -56,6 +69,19 @@ class Game {
         tablaServer[x][y] = 'X';
         cout << "fallo" << endl;
       }
+      turno = 's';
+    }
+
+    int getPuntajeHost() {
+      return puntajeHost;
+    }
+
+    int getPuntajeServer() {
+      return puntajeServer;
+    }
+
+    char getTurno() {
+      return turno;
     }
 
     int checkBoat(int a, int b, int o, int l, char tabla) {
@@ -123,10 +149,6 @@ class Game {
         for(int i = b; i < largo + b; i++)
           tablaHost[a][i] = tipo;
       }
-    }
-
-    void setStart() {
-      start = rand() % 2;
     }
 
     void showServer() {
