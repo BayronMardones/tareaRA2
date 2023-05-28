@@ -44,11 +44,10 @@ class Game {
     void disparoServer() {
       int x = rand() % 15;
       int y = rand() % 15;
-      
+
     }
 
     void disparo(int x, int y) {
-      
       if(tablaServer[x][y] != '_') {
         puntajeHost++;
         tablaServer[x][y] = 'O';
