@@ -4,6 +4,8 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <cstdlib>
+#include <string>
+#include <time.h>
 //si
 // #define PORT 8080
 
@@ -11,68 +13,152 @@ using namespace std;
 
 class Game {
   public:
+    char tablaServer[15][15];
+    char tablaHost[15][15];
+    int puntajeHost;
+    int puntajeServer;
+    int start;
 
-};
-
-class Boat {
-  public:
-    int largo;
-    int x;
-    int y;
-    int orientacion;
-    int status;
-    
-    Boat(int a, int b, int l, int o) {
-      largo = l;
-      x = a;
-      y = b;
-      orientacion = o;
-      status = 1;
+    Game() {
+      for(int i = 0; i < 15; i++) {
+        for(int j = 0; j < 15; j++) {
+          tablaServer[i][j] = '_';
+          tablaHost[i][j] = '_';
+        }
+      }
+      puntajeHost = 0;
+      puntajeServer = 0;
     }
 
-    void setBoat(int a, int b, int l, int o) {
-      largo = l;
-      x = a;
-      y = b;
-      orientacion = o;
+    void fillServer() {
+      randomBoat(5, 'P');
+      randomBoat(4, 'B');
+      randomBoat(4, 'B');
+      randomBoat(3, 'S');
+      randomBoat(3, 'S');
+      randomBoat(1, 'L');
+      randomBoat(1, 'L');
+      randomBoat(1, 'L');
     }
 
-    int getLargo() {
-      return largo;
+    void disparoServer() {
+      int x = rand() % 15;
+      int y = rand() % 15;
+      
     }
 
-    int getOrientacion() {
-      return orientacion;
+    void disparo(int x, int y) {
+      
+      if(tablaServer[x][y] != '_') {
+        puntajeHost++;
+        tablaServer[x][y] = 'O';
+        cout << "acierto" << endl;
+      }else {
+        tablaServer[x][y] = 'X';
+        cout << "fallo" << endl;
+      }
     }
 
-    int getX(){
-      return x;
+    int checkBoat(int a, int b, int o, int l, char tabla) {
+      if(tabla == 's') {
+        if(o == 0) {
+          for(int i = a; i < l + a; i++)
+            if(tablaServer[i][b] != '_')
+            return 1;
+        }
+        if(o == 1) {
+          for(int i = b; i < l + b; i++)
+            if(tablaServer[a][i] != '_')
+            return 1;
+        }
+      }
+      if(tabla == 'h') {
+        if(o == 0) {
+          for(int i = a; i < l + a; i++)
+            if(tablaHost[i][b] != '_')
+            return 1;
+        }
+        if(o == 1) {
+          for(int i = b; i < l + b; i++)
+            if(tablaHost[a][i] != '_')
+            return 1;
+        }
+      }
+      return 0;
     }
 
-    int getY(){
-      return y;
+    void randomBoat(int largo, char tipo) {
+      int x, y, o;
+      o = rand() % 2;
+      x = rand() % 15;
+      y = rand() % 15;
+
+      if(o == 1)
+        do {
+          y = rand() % 15;
+        } while(y > 10 || checkBoat(x, y, o, largo, 's'));
+      if(0 == 0)
+        do {
+          x = rand() % 15;
+        } while(x > 10 || checkBoat(x, y, o, largo, 's'));
+      putBoatServer(x, y, largo, o, tipo);
     }
 
-    void showBoat() {
-      cout << "largo: " << largo << " (x,y): (" << x << "," << y << ") orientacion: " << orientacion << " status: " << status <<  endl;
-    }
-};
-
-class Tables {
-  public:
-    int tablaServer[15][15];
-    int tablaCliente[15][15];
-
-    void setServer() {
-
+    void putBoatServer(int a, int b, int largo, int orientacion, char tipo) {
+      if(orientacion == 0) {
+        for(int i = a; i < largo + a; i++)
+          tablaServer[i][b] = tipo;
+      }
+      if(orientacion == 1) {
+        for(int i = b; i < largo + b; i++)
+          tablaServer[a][i] = tipo;
+      }
     }
 
+    void putBoatHost(int a, int b, int largo, int orientacion, char tipo) {
+      if(orientacion == 0) {
+        for(int i = a; i < largo + a; i++)
+          tablaHost[i][b] = tipo;
+      }
+      if(orientacion == 1) {
+        for(int i = b; i < largo + b; i++)
+          tablaHost[a][i] = tipo;
+      }
+    }
 
+    void setStart() {
+      start = rand() % 2;
+    }
+
+    void showServer() {
+      for(int i = 0; i < 15; i++) {
+        for(int j = 0; j < 15; j++) {
+          cout << " | " << tablaServer[i][j];
+        }
+        cout << " |" << endl;
+      }
+    }
+
+    void showHost() {
+      for(int i = 0; i < 15; i++) {
+        for(int j = 0; j < 15; j++) {
+          cout << " | " << tablaHost[i][j];
+        }
+        cout << " |" << endl;
+      }
+    }
 };
 
 int main(int argc, char *argv[])
 {
-  Boat bote1(1, 1, 5, 0);
-  bote1.showBoat();
+  srand(time(0));
+  Game partida;
+  partida.fillServer();
+  cout << endl;
+  partida.showServer();
+  partida.disparo(3, 3);
+  cout << endl;
+  partida.showServer();
+
   return 0;
 }
