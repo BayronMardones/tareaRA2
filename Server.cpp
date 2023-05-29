@@ -19,8 +19,12 @@ void* HandleClient(void* arg) {
   int clientSocket = *(static_cast<int*>(arg));
   cout << "Cliente " << clientNumber << " conectado" << endl;
 
+ 
   const char* message = "Hola, cliente!";
   write(clientSocket, message, strlen(message));
+  cout<< "mensaje enviado al cliente"<< clientNumber <<endl;
+
+ 
 
   // Lógica para manejar la conexión con el cliente
   // Cerrar el socket del cliente
@@ -107,18 +111,8 @@ int main(int argc, char *argv[])
       close(new_sockfd);
       continue;
     }
-    else
-    {
-      cout<<"cliente conectado"<<endl;
-    }
     pthread_detach(sockfdThread);
-    valread = read(new_sockfd, buffer, 1024);
-    cout << " " << buffer << endl;
   }
-
-  // recibir(valread);
-  valread = read(new_sockfd, buffer, 1024);
-	printf("%s\n", buffer);
 
   cout << "BYE ;)" << endl;
   return 0;

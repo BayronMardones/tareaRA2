@@ -72,6 +72,7 @@ class Client
     }
     cout << "Mensaje recibido: " << buffer << endl;
   }
+
 };
 
 int main(int argc, char *argv[])
@@ -87,15 +88,8 @@ int main(int argc, char *argv[])
 
   Client cliente(IP, PORT);
 
-  while(true)
-  {
-    cliente.enviar();
-    cliente.escuchar();
-    cout << "reinicio" << endl;
-  }
-
-
-
+  //cliente.acciones();
+  cliente.escuchar();
   cout << "fin" << endl;
   return 0;
 }
