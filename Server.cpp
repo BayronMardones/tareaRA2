@@ -7,12 +7,13 @@
 #include <pthread.h>
 #include <cstring>
 //si
-// #define PORT 8080
 
 using namespace std;
 const int MAX_CLIENTS = 5;
 
 void* HandleClient(void* arg) {
+
+  // Lógica para manejar la conexión con el cliente
   char buffer[1024];
   static int clientCounter = 0;
   int clientNumber = ++clientCounter;
@@ -32,19 +33,13 @@ void* HandleClient(void* arg) {
   memset(buffer, 0, sizeof(buffer));
   
 
-  // Lógica para manejar la conexión con el cliente
+  
   // Cerrar el socket del cliente
   close(clientSocket);
   cout << "Cliente "<< "[ " << clientNumber << " ] desconectado" << endl;
   pthread_exit(NULL);
   
 }
-
-  //metodo que lee el contenido del socket cliente guardado en buffer
-  // void recibir(int valread){
-  //   valread = read(new_sockfd, buffer, 1024);
-	//   printf("%s\n", buffer);
-  // }
 
 int main(int argc, char *argv[])
 {

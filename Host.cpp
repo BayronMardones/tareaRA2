@@ -8,10 +8,6 @@
 #include <cstring>
 #include <unistd.h>
 
-
-//192.168.1.13 autodoxeo de pana banana
-// #define PORT 8080
-
 using namespace std;
 
 class Client
@@ -56,7 +52,7 @@ class Client
   //metodo que envia un mensaje al servidor
   void action()
   {
-
+     // Lógica para manejar la conexión con el servidor
     //leer mensaje del server
     int bytesRead = read(cli_sockfd, buffer, sizeof(buffer));
     if (bytesRead < 0) {
@@ -76,12 +72,6 @@ class Client
                 std::cerr << "Error al enviar el mensaje al servidor" << std::endl;
                 close(cli_sockfd);
             }
-
-    // string mensaje;
-    // cout << "Ingrese su mensaje: ";
-    // getline(cin, mensaje);
-    // send(cli_sockfd, hello, strlen(hello), 0);
-    // cout << "Mensaje enviado" << endl;
   }
 
 };
@@ -100,7 +90,6 @@ int main(int argc, char *argv[])
 
   Client cliente(IP, PORT);
 
-  //cliente.acciones();
   cliente.action();
   cout << "fin" << endl;
   return 0;
