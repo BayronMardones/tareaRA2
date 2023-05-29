@@ -1,9 +1,12 @@
 all:
 	g++ Host.cpp -o Host
-	g++ Server.cpp -o Server
+	g++ Server.cpp game.cpp -o Server
 
 game:
 	g++ game.cpp -o game
+
+test:
+	g++ test.cpp game.cpp -o test
 
 clean:
 	rm Host
@@ -11,3 +14,6 @@ clean:
 
 cleangame:
 	rm game
+
+cleantest:
+	rm test

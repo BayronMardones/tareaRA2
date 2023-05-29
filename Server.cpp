@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <pthread.h>
 #include <cstring>
+#include <string>
+#include "game.h"
 //si
 
 using namespace std;
@@ -22,17 +24,39 @@ void* HandleClient(void* arg) {
   cout << "Cliente "<< "[ " << clientNumber << " ] conectado" << endl;
 
   //enviar mensaje al cliente
-  const char* message = "Hola, cliente!";
+  const char* message = "Bienvenido al servidor, solicitud de coordenadas.";
   write(clientSocket, message, strlen(message));
   cout<< "mensaje enviado al cliente: "<< clientNumber <<endl;
 
+  Game partida;
+  partida.fillServer();
+  int status = 1;
+  while(status) {
+    cout << "tabla del server" << endl;
+    partida.showServer();
+    cout << endl;
+    cout << "tabla del cliente" << endl;
+    partida.showHost();
+    if(partida.getTurno() == 's') {
+      cout << "turno del server" <<  endl;
+      partida.disparoServer();
+    }
+    else {
+      cout << "turno del cliente" << endl;
+      int bytesRead = read(clientSocket, buffer, sizeof(buffer));
+      int x = atoi(&buffer[0]), y = atoi(&buffer[2]);
+      cout << x << " " << y << endl;
+      partida.disparo(x, y);
+      memset(buffer, 0, sizeof(buffer));
+    }
+    cout << endl;
+    cout << "puntaje cliente: " << partida.getPuntajeHost() << " puntaje server: " << partida.getPuntajeServer() << endl;
+    if(partida.getPuntajeHost() == 22 || partida.getPuntajeServer() == 22) {
+      status = 0;
+    }
+  }
+
   //escuchar respuesta del cliente
-
-  int bytesRead = read(clientSocket, buffer, sizeof(buffer));
-  cout << "Mensaje del cliente: " << buffer << endl;
-  memset(buffer, 0, sizeof(buffer));
-  
-
   
   // Cerrar el socket del cliente
   close(clientSocket);
