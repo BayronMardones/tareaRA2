@@ -7,32 +7,39 @@
 #include <pthread.h>
 #include <cstring>
 //si
-// #define PORT 8080
 
 using namespace std;
 const int MAX_CLIENTS = 5;
 
 void* HandleClient(void* arg) {
+
+  // Lógica para manejar la conexión con el cliente
   char buffer[1024];
   static int clientCounter = 0;
   int clientNumber = ++clientCounter;
   int clientSocket = *(static_cast<int*>(arg));
-  cout << "Cliente " << clientNumber << " conectado" << endl;
 
+  cout << "Cliente "<< "[ " << clientNumber << " ] conectado" << endl;
+
+  //enviar mensaje al cliente
   const char* message = "Hola, cliente!";
   write(clientSocket, message, strlen(message));
+  cout<< "mensaje enviado al cliente: "<< clientNumber <<endl;
 
-  // Lógica para manejar la conexión con el cliente
+  //escuchar respuesta del cliente
+
+  int bytesRead = read(clientSocket, buffer, sizeof(buffer));
+  cout << "Mensaje del cliente: " << buffer << endl;
+  memset(buffer, 0, sizeof(buffer));
+  
+
+  
   // Cerrar el socket del cliente
   close(clientSocket);
+  cout << "Cliente "<< "[ " << clientNumber << " ] desconectado" << endl;
   pthread_exit(NULL);
+  
 }
-
-  //metodo que lee el contenido del socket cliente guardado en buffer
-  // void recibir(int valread){
-  //   valread = read(new_sockfd, buffer, 1024);
-	//   printf("%s\n", buffer);
-  // }
 
 int main(int argc, char *argv[])
 {
@@ -107,18 +114,8 @@ int main(int argc, char *argv[])
       close(new_sockfd);
       continue;
     }
-    else
-    {
-      cout<<"cliente conectado"<<endl;
-    }
     pthread_detach(sockfdThread);
-    valread = read(new_sockfd, buffer, 1024);
-    cout << " " << buffer << endl;
   }
-
-  // recibir(valread);
-  valread = read(new_sockfd, buffer, 1024);
-	printf("%s\n", buffer);
 
   cout << "BYE ;)" << endl;
   return 0;
