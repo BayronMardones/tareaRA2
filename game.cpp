@@ -48,11 +48,8 @@ void Game::fillServer() {
 
 //disparo del server de manera aleatoria
 void Game::disparoServer() {
-  int x, y;
-  do {
-    int x = rand() % 15;
-    int y = rand() % 15;
-  } while(tablaHost[x][y] == 'X' || tablaHost[x][y] == 'O');
+  int x = rand() % 15;
+  int y = rand() % 15;
   if(tablaHost[x][y] != '_') {
     puntajeServer++;
     tablaHost[x][y] = 'O';

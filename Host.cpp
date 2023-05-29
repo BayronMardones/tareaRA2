@@ -26,10 +26,6 @@ class Client
 	  	  perror("socket failed");
 	  	  exit(EXIT_FAILURE);
 	    }
-      else
-      {
-        cout << "CONGRATULATION :D" << endl;
-      }
 
       //establecer conexion con el socket del servidor y entrega de datos de la estructura sockaddr
       serv_addr.sin_family = AF_INET;
@@ -43,7 +39,7 @@ class Client
       }
       else
       {
-        cout << "connection finished :D" << endl;
+        cout << "conexion establecida" << endl;
       }
 		  
 		
@@ -52,7 +48,6 @@ class Client
   //metodo que envia un mensaje al servidor
   void action()
   {
-     // Lógica para manejar la conexión con el servidor
     //leer mensaje del server
     int bytesRead = read(cli_sockfd, buffer, sizeof(buffer));
     if (bytesRead < 0) {
@@ -62,16 +57,18 @@ class Client
     cout << "Mensaje recibido: " << buffer << endl;
 
     //enviar respuesta al server
+    while(true) {
+      cout << "Ingrese las coordenadas(ejemplo: 2,3): ";
+      string message;
+      getline(cin, message);
 
-    cout << "Ingrese un mensaje: ";
-    string message;
-    getline(cin, message);
-
-    int bytesSent = send(cli_sockfd, message.c_str(), message.length(), 0);
-            if (bytesSent < 0) {
-                std::cerr << "Error al enviar el mensaje al servidor" << std::endl;
-                close(cli_sockfd);
-            }
+      int bytesSent = send(cli_sockfd, message.c_str(), message.length(), 0);
+      if (bytesSent < 0) {
+        std::cerr << "Error al enviar el mensaje al servidor" << std::endl;
+        close(cli_sockfd);
+      }
+      if(message == "exit") break;
+    }
   }
 
 };
