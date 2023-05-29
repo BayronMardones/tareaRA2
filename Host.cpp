@@ -39,7 +39,7 @@ class Client
       }
       else
       {
-        cout << "conexion establecida" << endl;
+        cout << "Conexion establecida, espere la respuesta del servidor..." << endl;
       }
 		  
 		
@@ -54,7 +54,8 @@ class Client
         cerr << "Error al leer datos del servidor" << endl;
         close(cli_sockfd);
     }
-    cout << "Mensaje recibido: " << buffer << endl;
+    cout << buffer << endl;
+
 
     //enviar respuesta al server
     while(true) {

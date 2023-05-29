@@ -27,21 +27,40 @@ Game::Game() {
 //llenado de la tabla del server de manera aleatoria
 void Game::fillServer() {
   cout << "filling server table, please wait" << endl;
-  randomBoat(5, 'P');
+  randomBoat(5, 'P', 's');
   cout << "P READY" << endl;
-  randomBoat(4, 'B');
+  randomBoat(4, 'B', 's');
   cout << "B1 READY" << endl;
-  randomBoat(4, 'B');
+  randomBoat(4, 'B', 's');
   cout << "B2 READY" << endl;
-  randomBoat(3, 'S');
+  randomBoat(3, 'S', 's');
   cout << "S1 READY" << endl;
-  randomBoat(3, 'S');
+  randomBoat(3, 'S', 's');
   cout << "S2 READY" << endl;
-  randomBoat(1, 'L');
+  randomBoat(1, 'L', 's');
   cout << "L1 READY" << endl;
-  randomBoat(1, 'L');
+  randomBoat(1, 'L', 's');
   cout << "L2 READY" << endl;
-  randomBoat(1, 'L');
+  randomBoat(1, 'L', 's');
+  cout << "L3 READY" << endl;
+}
+
+void Game::fillHost() {
+  randomBoat(5, 'P', 'h');
+  cout << "P READY" << endl;
+  randomBoat(4, 'B', 'h');
+  cout << "B1 READY" << endl;
+  randomBoat(4, 'B', 'h');
+  cout << "B2 READY" << endl;
+  randomBoat(3, 'S', 'h');
+  cout << "S1 READY" << endl;
+  randomBoat(3, 'S', 'h');
+  cout << "S2 READY" << endl;
+  randomBoat(1, 'L', 'h');
+  cout << "L1 READY" << endl;
+  randomBoat(1, 'L', 'h');
+  cout << "L2 READY" << endl;
+  randomBoat(1, 'L', 'h');
   cout << "L3 READY" << endl;
 }
 
@@ -119,7 +138,7 @@ int Game::checkBoat(int a, int b, int o, int l, char tabla) {
 }
 
 //agrega botes de manera aleatoria
-void Game::randomBoat(int largo, char tipo) {
+void Game::randomBoat(int largo, char tipo, char tabla) {
   int x, y, o;
   o = rand() % 2;
   x = rand() % 15;
@@ -128,12 +147,14 @@ void Game::randomBoat(int largo, char tipo) {
   if(o == 1)
     do {
       y = rand() % 15;
-    } while(y > 10 || checkBoat(x, y, o, largo, 's'));
+    } while(y > 10 || checkBoat(x, y, o, largo, tabla));
   if(o == 0)
     do {srand(time(0));
       x = rand() % 15;
-    } while(x > 10 || checkBoat(x, y, o, largo, 's'));
-  putBoatServer(x, y, largo, o, tipo);
+    } while(x > 10 || checkBoat(x, y, o, largo, tabla));
+  if(tabla == 's') putBoatServer(x, y, largo, o, tipo);
+  else putBoatHost(x, y, largo, o, tipo);
+
 }
 
 //agrega un bote a la tabla de server
