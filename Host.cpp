@@ -54,23 +54,21 @@ class Client
 	}
 
   //metodo que envia un mensaje al servidor
-  void enviar()
-  {
-    string mensaje;
-    cout << "Ingrese su mensaje: ";
-    getline(cin, mensaje);
-    send(cli_sockfd, hello, strlen(hello), 0);
-    cout << "Mensaje enviado" << endl;
-  }
-
   void escuchar()
   {
+
     int bytesRead = read(cli_sockfd, buffer, sizeof(buffer));
     if (bytesRead < 0) {
         cerr << "Error al leer datos del servidor" << endl;
         close(cli_sockfd);
     }
     cout << "Mensaje recibido: " << buffer << endl;
+
+    // string mensaje;
+    // cout << "Ingrese su mensaje: ";
+    // getline(cin, mensaje);
+    // send(cli_sockfd, hello, strlen(hello), 0);
+    // cout << "Mensaje enviado" << endl;
   }
 
 };
@@ -83,6 +81,7 @@ int main(int argc, char *argv[])
     return 1;
   }
 
+  
   string IP = argv[1];
   int PORT = atoi(argv[2]);
 

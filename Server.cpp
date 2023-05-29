@@ -17,19 +17,20 @@ void* HandleClient(void* arg) {
   static int clientCounter = 0;
   int clientNumber = ++clientCounter;
   int clientSocket = *(static_cast<int*>(arg));
-  cout << "Cliente " << clientNumber << " conectado" << endl;
 
- 
+  cout << "Cliente "<< "[ " << clientNumber << " ] conectado" << endl;
+
+  
   const char* message = "Hola, cliente!";
   write(clientSocket, message, strlen(message));
-  cout<< "mensaje enviado al cliente"<< clientNumber <<endl;
-
- 
+  cout<< "mensaje enviado al cliente: "<< clientNumber <<endl;
 
   // Lógica para manejar la conexión con el cliente
   // Cerrar el socket del cliente
   close(clientSocket);
+  cout << "Cliente "<< "[ " << clientNumber << " ] desconectado" << endl;
   pthread_exit(NULL);
+  
 }
 
   //metodo que lee el contenido del socket cliente guardado en buffer
