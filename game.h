@@ -13,6 +13,8 @@ class Game {
 
     void fillServer();
 
+    void fillHost();
+
     void disparoServer();
 
     void disparo(int x, int y);
@@ -25,7 +27,7 @@ class Game {
 
     int checkBoat(int a, int b, int o, int l, char tabla);
 
-    void randomBoat(int largo, char tipo);
+    void randomBoat(int largo, char tipo, char tabla);
 
     void putBoatServer(int a, int b, int largo, int orientacion, char tipo);
 
