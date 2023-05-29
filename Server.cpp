@@ -20,10 +20,17 @@ void* HandleClient(void* arg) {
 
   cout << "Cliente "<< "[ " << clientNumber << " ] conectado" << endl;
 
-  
+  //enviar mensaje al cliente
   const char* message = "Hola, cliente!";
   write(clientSocket, message, strlen(message));
   cout<< "mensaje enviado al cliente: "<< clientNumber <<endl;
+
+  //escuchar respuesta del cliente
+
+  int bytesRead = read(clientSocket, buffer, sizeof(buffer));
+  cout << "Mensaje del cliente: " << buffer << endl;
+  memset(buffer, 0, sizeof(buffer));
+  
 
   // Lógica para manejar la conexión con el cliente
   // Cerrar el socket del cliente

@@ -54,15 +54,28 @@ class Client
 	}
 
   //metodo que envia un mensaje al servidor
-  void escuchar()
+  void action()
   {
 
+    //leer mensaje del server
     int bytesRead = read(cli_sockfd, buffer, sizeof(buffer));
     if (bytesRead < 0) {
         cerr << "Error al leer datos del servidor" << endl;
         close(cli_sockfd);
     }
     cout << "Mensaje recibido: " << buffer << endl;
+
+    //enviar respuesta al server
+
+    cout << "Ingrese un mensaje: ";
+    string message;
+    getline(cin, message);
+
+    int bytesSent = send(cli_sockfd, message.c_str(), message.length(), 0);
+            if (bytesSent < 0) {
+                std::cerr << "Error al enviar el mensaje al servidor" << std::endl;
+                close(cli_sockfd);
+            }
 
     // string mensaje;
     // cout << "Ingrese su mensaje: ";
@@ -88,7 +101,7 @@ int main(int argc, char *argv[])
   Client cliente(IP, PORT);
 
   //cliente.acciones();
-  cliente.escuchar();
+  cliente.action();
   cout << "fin" << endl;
   return 0;
 }
