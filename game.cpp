@@ -8,6 +8,7 @@
 
 using namespace std;
 
+//constructor de la partida
 Game::Game() {
   for(int i = 0; i < 15; i++) {
     for(int j = 0; j < 15; j++) {
@@ -22,6 +23,8 @@ Game::Game() {
   else turno = 'h';
 }
 
+
+//llenado de la tabla del server de manera aleatoria
 void Game::fillServer() {
   cout << "filling server table, please wait" << endl;
   randomBoat(5, 'P');
@@ -42,6 +45,8 @@ void Game::fillServer() {
   cout << "L3 READY" << endl;
 }
 
+
+//disparo del server de manera aleatoria
 void Game::disparoServer() {
   int x, y;
   do {
@@ -59,6 +64,7 @@ void Game::disparoServer() {
   turno = 'h';
 }
 
+//disparo del cliente
 void Game::disparo(int x, int y) {
   if(tablaServer[x][y] != '_') {
     puntajeHost++;
@@ -71,18 +77,22 @@ void Game::disparo(int x, int y) {
   turno = 's';
 }
 
+//retorna el puntaje del cliente
 int Game::Game::getPuntajeHost() {
   return puntajeHost;
 }
 
+//retorna el puntaje del server
 int Game::getPuntajeServer() {
   return puntajeServer;
 }
 
+//retorna el turno de juego
 char Game::getTurno() {
   return turno;
 }
 
+//comprueba que el espacio donde sera colocado el barco este limpio
 int Game::checkBoat(int a, int b, int o, int l, char tabla) {
   if(tabla == 's') {
     if(o == 0) {
@@ -111,6 +121,7 @@ int Game::checkBoat(int a, int b, int o, int l, char tabla) {
   return 0;
 }
 
+//agrega botes de manera aleatoria
 void Game::randomBoat(int largo, char tipo) {
   int x, y, o;
   o = rand() % 2;
@@ -128,6 +139,7 @@ void Game::randomBoat(int largo, char tipo) {
   putBoatServer(x, y, largo, o, tipo);
 }
 
+//agrega un bote a la tabla de server
 void Game::putBoatServer(int a, int b, int largo, int orientacion, char tipo) {
   if(orientacion == 0) {
     for(int i = a; i < largo + a; i++)
@@ -139,6 +151,7 @@ void Game::putBoatServer(int a, int b, int largo, int orientacion, char tipo) {
   }
 }
 
+//agrega un bote a la tabla de cliente
 void Game::putBoatHost(int a, int b, int largo, int orientacion, char tipo) {
   if(orientacion == 0) {
     for(int i = a; i < largo + a; i++)
@@ -150,6 +163,7 @@ void Game::putBoatHost(int a, int b, int largo, int orientacion, char tipo) {
   }
 }
 
+//muetra la tabla del server
 void Game::showServer() {
   for(int i = 0; i < 15; i++) {
     for(int j = 0; j < 15; j++) {
@@ -159,6 +173,7 @@ void Game::showServer() {
   }
 }
 
+//muestra la tabla del cliente
 void Game::showHost() {
   for(int i = 0; i < 15; i++) {
     for(int j = 0; j < 15; j++) {

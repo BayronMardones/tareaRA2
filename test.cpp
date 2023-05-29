@@ -11,6 +11,8 @@ int main() {
   partida.disparo(3, 3);
   cout << endl;
   partida.showServer();
+  cout << endl;
+  partida.showHost();
 
   return 0;
 }
